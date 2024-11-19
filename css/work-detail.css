@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+.work {
+  padding: var(--base-space) 0;
+  font-family: var(--second-font);
+}
+.work .w-container {
+  max-width: 850px;
+  margin: auto;
+}
+.work-title {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 64px;
+  font-family: "Noto Sans JP", sans-serif;
+}
+/* ボタンリンク */
+.btn-box {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.btn-attention {
+  max-width: 480px;
+  margin: auto;
+  margin-top: 24px;
+  font-size: 0.875rem;
+}
+.btn-attention a{
+  text-decoration: underline;
+}
+
+/* コンセプト&デザイン：共通 */
+.concept h2,
+.wire-frame h2{
+  border-left: 4px solid var(--third-color);
+  padding-left: 16px;
+  line-height: 1.5;
+}
+
+/* コンセプト */
+.concept {
+  margin-top: 64px;
+}
+.concept dl {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.concept dl dt {
+  width: 25%;
+  font-weight: 600;
+}
+.concept dl dd {
+  width: 75%;
+}
+.concept dl dt,
+.concept dl dd {
+  padding: 8px 24px;
+}
+
+/* 説明文：スマホ用レイアウト */
+@media (max-width: 768px) {
+  .concept dl {
+    display: block;
+  }
+  .concept dl dt {
+    width: 100%;
+    margin-top: 24px;
+  }
+  .concept dl dt:first-child {
+    margin-top: 0px;
+  }
+  .concept dl dd {
+    width: 100%;
+  }
+  .concept dl dt,
+  .concept dl dd {
+    padding: 8px 0 4px;
+  }
+}
+
+/* デザイン */
+.wire-frame {
+  margin-top: 64px;
+}
+.wire-frame figure {
+  margin-top: 32px;
+  font-weight: bold;
+}
