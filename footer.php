@@ -6,13 +6,10 @@
           <nav class="nav">
             <ul class="main-menu">
               <li class="menu-item">
-                <a href="<?php echo esc_url(home_url('/')); ?>works/">Works<span class="ja">制作物</span></a>
+                <a href="<?php echo esc_url(home_url('/')); ?>works/">Works<span class="ja">実績</span></a>
               </li>
               <li class="menu-item">
                 <a href="<?php echo esc_url(home_url('/')); ?>#skill">Skill<span class="ja">できること</span></a>
-              </li>
-              <li class="menu-item">
-                <a href="<?php echo esc_url(home_url('/')); ?>#price">Price<span class="ja">価格表</span></a>
               </li>
               <li class="menu-item">
                 <a href="<?php echo esc_url(home_url('/profile/')); ?>">Profile<span class="ja">私について</span></a>
@@ -31,14 +28,11 @@
               <a href="<?php echo esc_url(home_url('/')); ?>#contact">
                 <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/mail.svg" alt="お問い合わせ" />
               </a>
-              <a href="https://twitter.com/Tsuruoka_1103" target="_blank">
-                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/twitter.svg" alt="twitter" />
-              </a>
             </div>
           </div>
         </div>
         <!-- コピーライト -->
-        <p class="copyright"><small>&copy; 2023 SHUN TSURUOKA</small></p>
+        <p class="copyright"><small>&copy; 2024 SHUN TSURUOKA</small></p>
       </div>
     </footer>
     <!-- ▲ フッター -->

@@ -1,0 +1,75 @@
+// libary selector //
+
+=before( $display: null, $size: null )
+  &::before
+    content: ''
+    display: $display
+    width: $size
+    height: $size
+    @content
+
+=after( $display: null, $size: null )
+  &::after
+    content: ''
+    display: $display
+    width: $size
+    height: $size
+    @content
+
+=first
+  &:first-of-type
+    @content
+=first-child
+  &:first-child
+    @content
+=last
+  &:last-of-type
+    @content
+=last-child
+  &:last-child
+    @content
+=not-first
+  &:not(:first-of-type)
+    @content
+=not-first-child
+  &:not(:first-child)
+    @content
+=not-last
+  &:not(:last-of-type)
+    @content
+=not-last-child
+  &:not(:last-child)
+    @content
+=nth($i)
+  &:nth-of-type(#{$i})
+    @content
+=nth-child($i)
+  &:nth-child(#{$i})
+    @content
+=nth-last($i)
+  &:nth-last-of-type(#{$i})
+    @content
+=nth-last-child($i)
+  &:nth-last-child(#{$i})
+    @content
+=not-nth($i)
+  &:not(:nth-of-type(#{$i}))
+    @content
+=not-nth-child($i)
+  &:not(:nth-child(#{$i}))
+    @content
+=only
+  &:only-of-type
+    @content
+=only-child
+  &:only-child
+    @content
+=not-only
+  &:not(:only-of-type)
+    @content
+=not-only-child
+  &:not(:only-child)
+    @content
+=not($val)
+  &:not(#{$val})
+    @content

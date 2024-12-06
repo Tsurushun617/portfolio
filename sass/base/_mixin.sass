@@ -1,0 +1,52 @@
+// mixin
+=box
+  box-sizing: border-box
+=mincho
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W6", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif
+=noto
+  font-family: $sans-serif-noto
+=oswald
+  font-family: 'Oswald', sans-serif
+  font-weight: 400
+=transition
+  transition: all ease 0.5s
+
+// mask background
+=mask-bg($url: null, $bgcolor: black, $size: contain, $position: center center)
+  @if $url
+    $url: url(#{$url})
+  -webkit-mask: $url no-repeat $position
+    size: $size
+  mask: $url no-repeat $position
+    size: $size
+  background-color: $bgcolor
+
+=w($break)
+  @if $responsive
+    @media (min-width: ($break + 1))
+      @content
+  @else if $PC
+    @content
+  @else
+=ww($break)
+  @if $responsive
+    @media (max-width: $break )
+      @content
+  @else if $SP
+    @content
+  @else
+
+=box-shadow
+  box-shadow: 2px 2px 8px 0px rgba(black, .2)
+
+=mgAuto
+  margin:
+    right: auto
+    left: auto
+=wPCSP
+  @if $responsive
+    @media (min-width: 750px) and (max-width: 1200px)
+      @content
+  @else if $PC
+    @content
+  @else

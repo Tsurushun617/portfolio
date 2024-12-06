@@ -1,0 +1,50 @@
+// libary animation //
+
+@if $animation-rotate
+  @keyframes rotate
+    0%
+      transform: rotate(0deg)
+    50%
+      transform: rotate(180deg)
+    100%
+      transform: rotate(360deg)
+
+@if $animation-shake
+  @keyframes shake
+    0%
+      transform: translate(0px, 0px) rotateZ(0deg)
+    10%
+      transform: translate(1px, 1px) rotateZ(1deg)
+    20%
+      transform: translate(0px, 1px) rotateZ(0deg)
+    30%
+      transform: translate(1px, 0px) rotateZ(-1deg)
+    40%
+      transform: translate(0px, 1px) rotateZ(0deg)
+    100%
+      transform: translate(0px, 1px) rotateZ(0deg)
+
+@if $animation-turn
+  @keyframes turn
+    0%
+      transform: rotateY(0deg)
+    10%
+      transform: rotateY(90deg)
+    20%
+      transform: rotateY(180deg)
+    30%
+      transform: rotateY(270deg)
+    40%
+      transform: rotateY(360deg)
+    50%
+      transform: rotateY(0deg)
+
+@if $animation-bgEnlarge10
+  @keyframes bgEnlarge10
+    0%
+      background-size: 100% auto
+    100%
+      background-size: 110% auto
+  // example
+  // animation: bgEnlarge10 .2s ease-out 1
+  //   fill-mode: forwards

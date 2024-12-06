@@ -1,0 +1,74 @@
+// library extend //
+
+
+// sp defualt appearance off
+=appearance-none
+  $thisPrefixes: $prefixes
+  @if not index($prefixes, '-moz-')
+    $thisPrefixes: append($thisPrefixes, '-moz-')
+  @each $prefix in $thisPrefixes
+    #{$prefix}appearance: none
+
+//  clearfix
+=clear
+  &::after
+    content: ''
+    display: block
+    clear: both
+
+// dl row
+=dlrow
+  +clear
+  > *
+    float: left
+  dt
+    clear: both
+
+=ie
+  @media (-ms-high-contrast: none)
+    @content
+
+=stretch
+  +flexbox($direction: column)
+  > *
+    +flexitem(0, 1, auto)
+    +last-child
+      margin-top: auto
+
+// text overflow
+=text-overflow
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+// debug
+=this
+  background: red
+  border: 10px dashed green
+
+// vertical write
+=vertical-write
+  -ms-writing-mode: tb-rl
+  -webkit-writing-mode: vertical-rl
+  writing-mode: vertical-rl
+
+// ie only
+=wbr
+  wbr
+    +ie
+      display: block
+
+// word wrap
+=word-wrap
+  word-break: break-all
+  overflow-wrap: break-word
+
+// type text
+=inputText
+  width: 100%
+  max-width: 30em
+
+=scroll
+  +transform(translate3d(0, 0, 1px))
+  overflow-y: auto
+  -webkit-overflow-scrolling: touch
