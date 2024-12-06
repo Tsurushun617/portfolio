@@ -2,14 +2,22 @@
 
 <!-- ▼ メインビジュアル -->
 <section class="hero">
-  <div class="hero-container">
+  <div class="hero-box hero-container">
     <div class="hero-item">
       <h2 class="hero-title">
-        <?php bloginfo('name'); ?>
+        Shun Tsuruoka's<br> Portofolio
       </h2>
-      <p class="hero-txt fadeIn">
-        カスタマイズ性が高く、ユーザーの利便性を重視したホームページをご提案いたします。
-      </p>
+      <div class="hero-txt fadeIn">
+        <p>
+          デザインを忠実に再現できるコーディングスキルを磨いています。<br>
+          SEOやWebアクセシビリティの知識も活かして、Webサイトの改善に取り組んでいます。<br>
+          クライアントやエンドユーザーのニーズを的確に捉え、チームメンバーと共により良いWebサイトを作り上げたいと考えています。<br>
+          <a href="<?php echo esc_url(home_url('/profile/')); ?>">プロフィールを見る»</a>
+        </p>
+      </div>
+    </div>
+    <div class="hero-item">
+      <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/kv.jpg" alt="千葉の九十九里浜で長男と一緒に遊んでいるときの写真">
     </div>
   </div>
 </section>
@@ -22,13 +30,13 @@
     <div class="w-container">
       <h2 class="sec-title">Works<span class="ja">制作物</span></h2>
       <p class="sec-desc">
-        これまでに制作した架空サイトを紹介しております。
+        これまでに制作したサイトやWebマーケティングの実績を紹介しております。
       </p>
       <div class="works-container">
         <?php
         $args = array(
           'post_type' => 'works', // カスタム投稿タイプの名前
-          'posts_per_page' => 4, // 表示する投稿数
+          'posts_per_page' => 6, // 表示する投稿数
         );
         $query = new WP_Query($args); ?>
         <ul class="w-grid-list">
@@ -52,6 +60,17 @@
                   <p class="w-description">
                     <?php the_field("works-desc"); ?>
                   </p>
+                  <p class="w-category">
+                    <?php
+                    // カテゴリーを表示
+                    $categories = get_the_category();
+                    if (! empty($categories)) {
+                      foreach ($categories as $category) {
+                        echo  $category->name;
+                      }
+                    }
+                    ?>
+                  </p>
                 </a>
               </li>
             <?php endwhile;
@@ -59,7 +78,6 @@
           else : ?>
             <p>投稿が見つかりません。</p>
           <?php endif; ?>
-        </ul>
         </ul>
       </div>
       <div class="btn-container">
@@ -72,233 +90,73 @@
   <!-- ▼ Skill -->
   <section class="skill" id="skill">
     <div class="w-container">
-      <h2 class="sec-title">Skill<span class="ja">できること</span></h2>
-      <p class="sec-desc">
-        デザインデータをいただければ、コーディングからの制作も可能です。<br />また、HTML・CSSでコーディングしたWebサイトの動的化にも対応いたします。料金は内容により変動してきますので、まずはお気軽にお問い合わせ下さい。
-      </p>
+      <h2 class="sec-title">Skill<span class="ja">できること・得意なこと</span></h2>
       <div class="skill-container">
         <ul class="s-grid-list">
+          <!-- コーディング -->
           <li class="s-grid-item scroll-up">
             <h3 class="s-title">
               Cording<span class="ja">コーディング</span>
             </h3>
             <figure class="service-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/coding.svg" alt="direction" />
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/common/icon_code.svg" alt="コーディング" />
             </figure>
-            <p class="s-text">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('skill01', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </p>
-            <div class="tool-inner">
-              <p>使用言語・ツール</p>
-              <p>HTML / CSS / JavaScript / jQuery / VSCode</p>
-            </div>
+            <dl class="s-list">
+              <dt>
+                言語 / ツール
+              </dt>
+              <dd>
+                HTML/CSS/JavaScript/WordPress・PHP
+                VSCode（Cursor）/Local by flywheel/Figma/Illustrator</dd>
+              <dt>デザインに忠実にコーディング</dt>
+              <dd>
+                ディレクターやデザイナーと密に協力し、デザインデータの細かなニュアンスを最大限に尊重し、限りなくデザインに忠実なコーディングを行います。<br>
+              <dt>保守性を意識したコーディング</dt>
+              <dd>
+                SASSを活用し、保守性と拡張性を高め、効率的なCSSの管理を実現します。
+              </dd>
+              <dt>SEO最適化</dt>
+              <dd>単にデザインを再現するだけでなく、SEOを意識した構造設計と、画像圧縮、簡潔なコードによる高速化を行い、ユーザー体験を高めます。
+              <dt>Git・GitHubも
+              </dt>
+              <dd>
+                GitやGitHubなどのバージョン管理システムの実務経験を有しており、複数人での共同作業も可能です。
+              </dd>
+            </dl>
           </li>
+          <!-- Webサイト運用 -->
           <li class="s-grid-item scroll-up">
             <h3 class="s-title">
-              WordPress<span class="ja">ワードプレスへの移行</span>
+              WebMerketing<span class="ja">Webサイト運用</span>
             </h3>
             <figure class="service-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/wordpress.svg" alt="coding" />
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/common/icon_analytics.svg"
+                alt="Webサイト運用" />
             </figure>
-            <p class="s-text">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('skill02', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </p>
-            <div class="tool-inner">
-              <p>使用言語・ツール</p>
-              <p>WordPress / PHP / Figma / VSCode /Local by flywheel</p>
-            </div>
-          </li>
-          <li class="s-grid-item scroll-up">
-            <h3 class="s-title">
-              Upgrade＆Maintenance<span class="ja">サイト改修・保守</span>
-            </h3>
-            <figure class="service-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/maintenance.svg" alt="maintenance" />
-            </figure>
-            <p class="s-text">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('skill03', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </p>
-            <div class="tool-inner">
-              <p>使用言語・ツール</p>
-              <p>
-                HTML / CSS / JavaScript / jQuery /WordPress / PHP / VSCode
-                /Local by flywheel
-              </p>
-            </div>
+            <dl class="s-list">
+              <dt>保守・バックアップ
+              </dt>
+              <dd>
+                年間10サイト以上のWebサイトの保守・運用に携わり、データ保護とサイト修正をしてきました。
+              </dd>
+              <dt>分析ツール導入</dt>
+              <dd>
+                GA4、Googleタグマネージャー、Googleサーチコンソール、Microsoft
+                Clarityなどの分析ツールを駆使したWebサイト運用を行ってきました。
+              </dd>
+              <dt>Webサイト分析・改善</dt>
+              <dd>
+                GA4では、カスタムイベントの作成やキーイベントの計測、詳細なレポート分析を行い、ユーザー行動を深く理解し、Webサイトの改善点を特定してきました。 </dd>
+              <dt>Webサイト運用の実績</dt>
+              <dd>
+                BtoC企業のコーポレートサイトでは、平均掲載順位を8.9位から5.1位に、クリック率を1.5%から4.1%に改善し、月あたりのCVをを30%以上増加させることに貢献しました。<br>
+              </dd>
+            </dl>
           </li>
         </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- ▼ Price -->
-  <section class="price" id="price">
-    <div class="w-container">
-      <h2 class="sec-title">Price<span class="ja">価格表</span></h2>
-      <p class="sec-desc">
-        以下は参考価格（税込み）です。<br />
-        詳しい費用はお問い合わせ時にご確認ください。
-      </p>
-      <div class="price-container">
-        <div class="price-list">
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/code.svg" alt="" />
-            </div>
-            <span class="price-item">
-              トップページコーディング
-            </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price01', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/code.svg" alt="" />
-            </div>
-            <span class="price-item"> 下層ページコーディング </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price02', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/code.svg" alt="" />
-            </div>
-            <span class="price-item"> ランディングページコーディング </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price03', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/device.svg" alt="" />
-            </div>
-            <span class="price-item"> レスポンシブ対応 </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price04', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/seo.svg" alt="" />
-            </div>
-            <span class="price-item"> 内部SEO対策 </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price05', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/code.svg" alt="coding" />
-            </div>
-            <span class="price-item"> コーディング + WordPress化 </span>
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price06', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-          <div class="price-wrapper">
-            <div class="price-icon">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/WordPress-icon.svg" alt="wordpress" />
-            </div>
-            <span class="price-item"> 既存サイトのWordPress化 </span>
-            <!-- ▼ 価格 -->
-            <span class="price-cost">
-              <?php
-              $slug = 'custom_field';  // 取得するスラッグ名
-              $page = get_page_by_path($slug);  // スラッグ名からページを取得
-              $id = $page->ID; // ページのIDを取得
-              $get_field = get_field_object('price07', $id); // フィールドオブジェクトを取得
-              echo esc_html($get_field['value']); // フィールドの値をエスケープして出力
-              ?>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ▼ Profile -->
-  <section class="profile" id="profile">
-    <div class="w-container">
-      <h2 class="sec-title">Profile<span class="ja">私について</span></h2>
-      <div class="p-container">
-        <div class="profile-inner scroll-up">
-          <div class="profile-img">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/profile.jpg" alt="profile-img" />
-          </div>
-          <div class="profile-text">
-            <p class="profile-name">鶴岡 駿 - SHUN TSURUOKA</p>
-            <p>
-              はじめまして、千葉県出身の鶴岡 駿(つるおか
-              しゅん)と申します。<br />
-              4年制の大学を卒業後、区役所で4年、市役所で3年働いた後、2022年7月からWeb制作の学習を始めました。現在はWebサイト制作の活動をしております。<br />
-              Web制作を通して、みなさまの魅力をお伝えするお手伝いができればと思っております。
-            </p>
-          </div>
-        </div>
-        <div class="btn-container">
-          <a href="<?php echo esc_url(home_url('/profile/')); ?>" class="btn">もっと見る</a>
-        </div>
+      <div class="btn-container">
+        <a href="<?php echo esc_url(home_url('/profile/')); ?>" class="btn">詳しくみる</a>
       </div>
     </div>
   </section>
@@ -308,7 +166,9 @@
     <div class="w-container">
       <h2 class="sec-title">Contact<span class="ja">お問い合わせ</span></h2>
       <div class="contact-container">
-        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdT4L2ttmnejIt1ho8NvNNlJDFM2_TOyEIuAEoXJmTb-LOtOg/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;" class="form">
+        <form
+          action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdT4L2ttmnejIt1ho8NvNNlJDFM2_TOyEIuAEoXJmTb-LOtOg/formResponse"
+          method="post" target="hidden_iframe" onsubmit="submitted=true;" class="form">
           <p>
             当方へのお問い合わせは、<br class="sp-only">下記のお問い合わせフォームより送信してください。
           </p>
@@ -316,7 +176,8 @@
             <!-- お名前 -->
             <dt><span class="required">お名前</span></dt>
             <dd>
-              <input type="text" name="entry.1207059317" class="input-text" size="60" value="" autocomplete="name" required />
+              <input type="text" name="entry.1207059317" class="input-text" size="60" value="" autocomplete="name"
+                required />
             </dd>
             <!-- ふりがな -->
             <dt><span class="required">ふりがな</span></dt>
@@ -326,12 +187,14 @@
             <!-- メールアドレス -->
             <dt><span class="required">メールアドレス</span></dt>
             <dd>
-              <input type="email" name="entry.1757510862" class="input-text" size="60" value="" autocomplete="email" required />
+              <input type="email" name="entry.1757510862" class="input-text" size="60" value="" autocomplete="email"
+                required />
             </dd>
             <!-- 会社名 -->
             <dt>会社名<span class="optional"></span></dt>
             <dd>
-              <input type="text" name="entry.1442975567" class="input-text" size="60" value="" autocomplete="organization" />
+              <input type="text" name="entry.1442975567" class="input-text" size="60" value=""
+                autocomplete="organization" />
             </dd>
             <!-- お問い合わせ内容 -->
             <dt><span class="required">お問い合わせ内容</span></dt>
@@ -341,7 +204,8 @@
             <!-- スパム対策 -->
             <dt><span class="required">スパム対策にご協力ください</span></dt>
             <dd>
-              <input type="text" name="entry.860833466" class="input-text" size="60" value="" placeholder="「もりのくまさん」と入力してください。" autocomplete="spam" pattern="もりのくまさん" required />
+              <input type="text" name="entry.860833466" class="input-text" size="60" value=""
+                placeholder="「もりのくまさん」と入力してください。" autocomplete="spam" pattern="もりのくまさん" required />
             </dd>
           </dl>
           <p class="confirm-text">

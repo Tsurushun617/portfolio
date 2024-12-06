@@ -1,0 +1,554 @@
+// libary mixin //
+
+// for Mix-in 型判定
+=types($vals)
+  $type_string  : null !global
+  $type_color   : null !global
+  $type_number  : null !global
+  $type_list    : null !global
+  $type_map     : null !global
+  $type_boolean : null !global
+  @each $val in $vals
+    @if type-of($val) == string
+      $type_string  : $val !global
+    @else if type-of($val) == color
+      $type_color   : $val !global
+    @else if type-of($val) == number
+      $type_number  : $val !global
+    @else if type-of($val) == list
+      $type_list    : $val !global
+    @else if type-of($val) == map
+      $type_map     : $val !global
+    @else if type-of($val) == boolean
+      $type_boolean : $val !global
+    @else
+      $type_null    : null !global
+
+// comment write for css
+=comment($str)
+  @at-root
+    /* ↓#{$str}↓ */
+  @content
+  @at-root
+    /* ↑#{$str}↑ */
+
+// don't overwrite padding
+=padding($v:null, $h:null)
+  @if $v
+    padding:
+      top: $v
+      bottom: $v
+  @if $h
+    padding:
+      right: $h
+      left: $h
+
+// don't overwrite margin
+=margin($v:null, $h:null)
+  @if $v
+    margin:
+      top: $v
+      bottom: $v
+  @if $h
+    margin:
+      right: $h
+      left: $h
+
+// set width & height
+=wh($wh)
+  width: $wh
+  height: $wh
+
+// centering vertical or horizontal
+=centering($mw: $width-max, $margin: null, $vh: h)
+  @if $vh == h
+    @if $responsive or ('%' ==unit($mw) or 'vw'==unit($mw))
+      max-width: $mw
+    @else if $PC
+      width: $mw
+    @else
+      // todo?
+    @if $margin
+      @if 'list' == type-of($margin)
+        margin: nth($margin, 1) auto nth($margin, 2)
+      @else
+        +margin($margin, auto)
+    @else
+      +margin(null, auto)
+  @else
+    // position: relative
+    top: 50%
+    +transform(translateY(-50%))
+
+// table-centering
+=table-centering($mt: null, $mb: null)
+  display: table
+  @if ($mt == $mb)
+    margin: $mt auto
+  @else if ($mt or $mb)
+    margin: $mt auto $mb
+  @else if $mt
+    margin-top: $mt
+    +margin(null, auto)
+  @else if $mb
+    margin-bottom: $mb
+    +margin(null, auto)
+  @else
+    +margin(null, auto)
+
+// position
+=position($position: absolute, $top: null, $right: null, $bottom: null, $left: null, $z: null)
+  position : $position
+  top      : $top
+  right    : $right
+  bottom   : $bottom
+  left     : $left
+  z-index  : $z
+=relative($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  +position(relative,$top, $right, $bottom, $left, $z)
+=absolute($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  +position(absolute,$top, $right, $bottom, $left, $z)
+=fixed($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  +position(fixed,$top, $right, $bottom, $left, $z)
+
+// transform
+=transform($val)
+  @each $prefix in $prefixes
+    @if $prefix != -ms-
+      #{$prefix}transform: $val
+=translate($val...)
+  +transform(translate($val))
+=translateX($val)
+  +transform(translateX($val))
+=translateY($val)
+  +transform(translateY($val))
+=rotate($val)
+  +transform(rotate($val))
+
+// float
+=float($w: 50%, $lr: left)
+  display: block
+  width: $w
+  float: $lr
+
+// change table and children's change table-cell
+=table($layout: null, $w: 100%, $v: middle)
+  display: table
+  table-layout: $layout
+  width: $w
+  > *
+    display: table-cell
+    vertical-align: $v
+
+// self centering
+=table-centering($mt: null, $mb: null)
+  display: table
+  @if ($mt == $mb)
+    margin: $mt auto
+  @else if ($mt and $mb)
+    margin: $mt auto $mb
+  @else if $mt
+    margin-top: $mt
+    +margin(null, auto)
+  @else if $mb
+    margin-bottom: $mb
+    +margin(null, auto)
+  @else
+    +margin(null, auto)
+
+// border
+=border($top: null, $right: null, $bottom: null, $left: null)
+  border:
+    top    : $top
+    right  : $right
+    bottom : $bottom
+    left   : $left
+
+// border-radius
+=radius($tl: null, $tr: null, $br: null, $bl: null)
+  border-top:
+    left-radius: $tl
+    right-radius: $tr
+  border-bottom:
+    right-radius: $br
+    left-radius: $bl
+
+// boxshadow
+=boxshadow($vals, $color: null, $op: null)
+  @each $prefix in $prefixes
+    @if 'unset' == $vals
+      #{$prefix}box-shadow: none
+    @else
+      #{$prefix}box-shadow: $vals $color $op
+
+// post
+=post-list($padding: null, $border: $border-gray)
+  @if not $padding
+    $padding: 1em
+  @if $SP
+    $padding: half($padding)
+  padding: $padding
+  +not-last
+    border-bottom: $border
+
+// color invert
+=invert($color: null, $reverse: false)
+  @if not $color
+    $color: $color-black
+  @if $reverse
+    color: $color
+    background-color: $reverse
+  @else
+    color: #FFF
+    background-color: $color
+
+// bgColor on color
+=bgOn($bgColor, $onColor)
+  color: $onColor
+  background-color: $bgColor
+
+// image background
+=img-bg($url: null, $size: cover, $color: null, $position: center center)
+  @if $url
+    $url: url(#{$url})
+  background: $url no-repeat $position
+    size: $size
+    color: $color
+
+// mask background
+=mask-bg($url: null, $size: contain, $position: center center)
+  @if $url
+    $url: url(#{$url})
+  -webkit-mask: $url no-repeat $position
+    size: $size
+  mask: $url no-repeat $position
+    size: $size
+
+// circle image
+=circle-img($val: null, $url: null)
+  +img-bg($url)
+  width: $val
+  height: $val
+  border-radius: 100%
+
+// make btn
+=btn($display: inline-block, $invert: true, $bgColor: $color-blue, $border: $border-gray, $padding: .5em 2em, $margin: null)
+  display: $display
+  @if $invert
+    color: #FFF
+  background-color: $bgColor
+  border: $border
+    radius: 2px
+  padding: $padding
+  margin: $margin
+
+// progress bar
+=progress-color($color: $color-green, $bg: $color-light-gray)
+  background-color: $bg
+  &::-moz-progress-bar
+    background: $color
+  &::-webkit-progress-bar
+    background: $bg
+  &::-webkit-progress-value
+    background: $color
+  &
+    color: $color
+
+// hover
+=hover-scaleup($scale: 1.2, $target: img)
+  overflow: hidden
+  &:hover
+    opacity: 1
+    #{$target}
+      +transform(scale($scale) translateY(-50%))
+  #{$target}
+    transition: .2s
+
+// icon
+=icon($ba, $wh: 1em, $display: inline-block)
+  &::#{$ba}
+    content: ''
+    display: $display
+    width: $wh
+    height: $wh
+    +img-bg($size: contain)
+
+// w100mw
+=w100mw($mw: 30em)
+  width: 100%
+  max-width: $mw
+
+// triangle
+=triangle($vals...)
+  +types($vals)
+  border-style: solid
+  @if ($type_string == top)
+    border:
+      width: $type_number
+      color: $type_color transparent transparent transparent
+  @else if ($type_string == right)
+    border:
+      width: $type_number
+      color: transparent $type_color transparent transparent
+  @else if ($type_string == bottom)
+    border:
+      width: $type_number
+      color: transparent transparent $type_color transparent
+  @else if ($type_string == left)
+    border:
+      width: $type_number
+      color: transparent transparent transparent $type_color
+  @else if ($type_string == leftTop) or ($type_string == topLeft)
+    border:
+      width: $type_number $type_number 0 0
+      color: $type_color transparent transparent transparent
+  @else if ($type_string == rightTop) or ($type_string == topRight)
+    border:
+      width: 0 $type_number $type_number 0
+      color: transparent $type_color transparent transparent
+  @else if ($type_string == leftBottom) or ($type_string == bottomLeft)
+    border:
+      width: $type_number 0 0 $type_number
+      color: transparent transparent transparent $type_color
+  @else if ($type_string == rightBottom) or ($type_string == bottomRight)
+    border:
+      width: 0 0 $type_number $type_number
+      color: transparent transparent $type_color transparent
+
+// gradient
+=gradient($direction, $colors...)
+  $i: 0
+  $ary: null
+  $length: length($colors)
+  $pct: 0%
+  $webkit-direction: null
+
+  @if $direction == v
+    $webkit-direction: top
+    $direction: to bottom
+  @else
+    $webkit-direction: left
+    $direction: to right
+  @each $color in $colors
+    @if type-of($color) == list
+      $ary: append($ary, $color, comma)
+    @else
+      @if $i == 0
+        //
+      @else if $i+1 == $length
+        $pct: 100%
+      @else
+        $pct: (100% / ($length - 1)) * $i
+      $ary: append($ary, $color $pct, comma)
+
+    $i: $i + 1
+  background: -webkit-linear-gradient($webkit-direction, $ary)
+  background: linear-gradient($direction, $ary)
+
+
+////////// ↓FLEX↓ //////////
+// flexbox
+$flexPrefixes: -webkit-, ''
+=flexbox($direction: null, $wrap: nowrap, $jc: null, $ac: null, $ai: null)
+  display: -ms-flexbox
+  @if $old-browser
+    /* for old browser */
+    display: -webkit-box
+  @each $prefix in $flexPrefixes
+    // comment write
+    @if $prefix != ''
+      /* prefix -> #{$prefix}*/
+    @else
+      /* no prefix*/
+    display: #{$prefix}flex
+    @if $direction and $direction != row
+      @if $old-browser
+        /* for old browser */
+        -webkit-box:
+          orient: vertical
+          direction: normal
+      #{$prefix}flex-direction: $direction
+    @if $wrap and $wrap != nowrap
+      #{$prefix}flex-wrap: $wrap
+    @if $jc and $jc != flex-start
+      @if $old-browser
+        /* for old browser */
+        @if center == $jc
+          -webkit-box-pack: center
+        @else if flex-start == $jc
+          -webkit-box-pack: start
+        @else if space-around == $jc or space-between == $jc
+          -webkit-box-pack: justify
+        @else if center == $jc
+          -webkit-box-pack: center
+      #{$prefix}justify-content: $jc
+    @if $ac and $ac != stretch
+      #{$prefix}align-content: $ac
+    @if $ai and $ai != stretch
+      @if $old-browser
+        /* for old browser */
+        @if flex-start == $ai
+          -webkit-box-align: start
+        @else if flex-end == $ai
+          -webkit-box-align: end
+        @else
+          -webkit-box-align: $ai
+      #{$prefix}align-items: $ai
+
+=flexinlinebox($direction: false, $wrap: nowrap, $jc: null, $ac: null, $ai: null)
+  display: -ms-inline-flexbox
+  @if $old-browser
+    /* for old browser */
+    display : -webkit-inline-box
+  @each $prefix in $flexPrefixes
+    // comment write
+    @if $prefix != ''
+      /* prefix -> #{$prefix}*/
+    @else
+      /* no prefix*/
+    display: #{$prefix}inline-flex
+    // @if $direction and $direction != row
+    //   @if $old-browser
+    //     /* for old browser */
+    //     -webkit-box:
+    //       orient: vertical
+    //       direction: normal
+    //   #{$prefix}flex-direction: $direction
+    @if $wrap and $wrap != nowrap
+      #{$prefix}flex-wrap: $wrap
+    @if $jc and $jc != flex-start
+      @if $old-browser
+        /* for old browser */
+        @if center == $jc
+          -webkit-box-pack: center
+        @else if flex-start == $jc
+          -webkit-box-pack: start
+        @else if space-around == $jc or space-between == $jc
+          -webkit-box-pack: justify
+        @else if center == $jc
+          -webkit-box-pack: center
+      #{$prefix}justify-content: $jc
+    @if $ac and $ac != stretch
+      #{$prefix}align-content: $ac
+    @if $ai and $ai != stretch
+      @if $old-browser
+        /* for old browser */
+        @if flex-start == $ai
+          -webkit-box-align: start
+        @else if flex-end == $ai
+          -webkit-box-align: end
+        @else
+          -webkit-box-align: $ai
+      #{$prefix}align-items: $ai
+
+// alignitems
+=alignitems($val)
+  @if $old-browser
+    /* for old browser */
+    @if flex-start == $val
+      -webkit-box-align: start
+    @else if flex-end == $val
+      -webkit-box-align: end
+    @else
+      -webkit-box-align: $val
+  @each $prefix in $flexPrefixes
+    #{$prefix}align-items: $val
+=justifycontent($jc)
+  @if $old-browser
+    /* for old browser */
+    @if center == $jc
+      -webkit-box-pack: center
+    @else if flex-start == $jc
+      -webkit-box-pack: start
+    @else if space-around == $jc or space-between == $jc
+      -webkit-box-pack: justify
+    @else if center == $jc
+      -webkit-box-pack: center
+  @each $prefix in $flexPrefixes
+    #{$prefix}justify-content: $jc
+=flexwrap($val)
+  @each $prefix in $flexPrefixes
+    #{$prefix}flex-wrap: $val
+// flexitem
+=flexitem($grow: 0, $shrink: 1, $basis: auto, $mw: true, $as: null, $order: null, $display: null)
+  display: $display
+  @if $old-browser
+    /* for old browser */
+    -webkit-box-flex: $grow
+    /* for old browser */
+    -webkit-box-flex-group: $shrink
+  @each $prefix in $flexPrefixes
+    #{$prefix}flex: $grow $shrink $basis
+    @if $as
+      #{$prefix}align-self: $as
+    @if $order
+      #{$prefix}order: $order
+  @if $mw == true
+    @if ($basis != auto and $basis > 0)
+      @if $old-browser or $flexIE
+        width: $basis
+        max-width: $basis
+      @else
+        max-width: $basis
+  @else if $mw
+    @if $old-browser or $flexIE
+      width: $mw
+    @else
+      max-width: $mw
+// flexgrow
+=flexgrow($val)
+  @each $prefix in $flexPrefixes
+    #{$prefix}flex-grow: $val
+// flexshrink
+=flexshrink($val)
+  @each $prefix in $flexPrefixes
+    #{$prefix}flex-shrink: $val
+// flexbasis
+=flexbasis($val, $width-max: true)
+  @each $prefix in $flexPrefixes
+    #{$prefix}flex-basis: $val
+  @if ($width-max and $val != auto and $val > 0)
+    @if $old-browser or $flexIE
+      width: $val
+    max-width: $val
+  @else if $val == auto
+    width: unset
+    max-width: unset
+// flexorder
+=flexorder($val)
+  @each $prefix in $flexPrefixes
+    #{$prefix}order: $val
+// flexorder
+=alignself($val)
+  @each $prefix in $flexPrefixes
+    #{$prefix}align-self: $val
+////////// ↑FLEX↑ //////////
+
+
+////////// ↓DEPRECATED↓ //////////
+// gradient button
+=gra-button($color: $color-gray, $updown: up )
+  @if up == $updown
+    +gradient(v, #FAFAFA 0%, mix($color, #FFF, 75%) 5%, $color 100%)
+  @else
+    +gradient(v, mix($color, #FFF, 75%) 5%, $color 95%, mix($color, #FFF, 25%) 100%)
+  color: #FFF
+  border: 1px solid $color
+    radius: 2px
+  $val: 0 1px 2px darken($color, 15%)
+  letter-spacing: 1px
+  text:
+    shadow: $val
+    align: center
+
+// gradient large button
+=large-button($color: $color-theme, $w: 100%, $padding: .5em, $center: false)
+  @if $center
+    +table-centering
+  @else
+    display: inline-block
+  +gra-button($color)
+  width: $w
+  padding: $padding
+  +margin(null, auto)
+////////// ↑DEPRECATED↑ //////////

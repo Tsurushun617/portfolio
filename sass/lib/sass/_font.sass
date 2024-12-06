@@ -1,0 +1,198 @@
+// font
+
+$pinyon: 'Pinyon Script', cursive
+$crimson: 'Crimson Text', serif
+
+$USEFONT_sans-serif : null !default
+$USEFONT_serif      : null !default
+$USEFONT_monospace  : null !default
+$USEFONT_googleFont : null !default
+$USEFONT_iconfont   : null !default
+
+// ↓ and flag ↓
+$PATH-font-noto        : '' !default
+$PATH-font-lato        : '' !default
+$PATH-font-fontawesome : '' !default
+
+$sans-serif-noto     : ('Noto Sans JP', 'sans-serif')
+$sans-serif-hiragino : ('ヒラギノ角ゴ Pro W6', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif)
+$sans-serif-yu       : ('游ゴシック Medium', '游ゴシック', '游ゴシック体', 'Yu Gothic Medium', 'YuGothic', 'メイリオ', sans-serif)
+$sans-serif-yumin       : ('Yu Mincho', 'YuMincho', 'serif')
+
+$sans-serif: null
+@if index($USEFONT_sans-serif, noto)
+  $sans-serif: append($sans-serif, $sans-serif-noto, comma)
+@if index($USEFONT_sans-serif, hiragino)
+  $sans-serif: append($sans-serif, $sans-serif-hiragino, comma)
+@if index($USEFONT_sans-serif, yu)
+  $sans-serif: append($sans-serif, $sans-serif-yu, comma)
+
+$sans-serif : append($sans-serif, ('メイリオ', 'Meiryo'), comma)
+$sans-serif : append($sans-serif, ('ＭＳ Ｐゴシック', 'MS PGothic'), comma)
+$sans-serif : append($sans-serif, sans-serif, comma)
+
+$font-noto     : append($sans-serif-noto,     $sans-serif, comma)
+$font-hiragino : append($sans-serif-hiragino, $sans-serif, comma)
+$font-yu       : append($sans-serif-yu,       $sans-serif, comma)
+
+// serif
+$serif: null
+@if index($USEFONT_serif, hiragino)
+  $serif: append($serif, ('ヒラギノ明朝 ProN W3', 'Hiragino Mincho ProN'), comma)
+@if index($USEFONT_serif, yu)
+  $serif: append($serif, ('游明朝', 'YuMincho'), comma)
+
+$serif : append($serif, ('ＭＳ Ｐ明朝', 'MS PMincho'), comma)
+$serif : append($serif, serif, comma)
+
+// proportional
+$monospace: null
+@if index($USEFONT_monospace, TODO)
+  //
+$monospace : 'Consolas', 'Menlo', 'Courier New', 'Courier'
+$monospace : append($monospace, ('メイリオ', 'Meiryo'), comma)
+$monospace : append($monospace, monospace, comma)
+$font-monospace : $monospace
+
+
+///// fontface /////
+
+// Noto Sans
+@if $PATH-font-noto and index($USEFONT_sans-serif, noto)
+  @font-face
+    font:
+      family: 'Noto Sans JP'
+      style: normal
+      weight: 400
+    $path: ''
+    @if 'cdn' == $PATH-font-noto
+      $path: '//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular'
+    @else if 'local' == $PATH-font-noto
+      $path: '' //  todo
+    @else
+      $path: $PATH-font-noto
+    $src: local("Noto Sans CJK JP")
+    $src: append($src, url($path + '.woff2') format('woff2'), comma)
+    $src: append($src, url($path + '.woff') format('woff'), comma)
+    $src: append($src, url($path + '.otf') format('opentype'), comma)
+    src: $src
+  $PATH-font-noto: false
+
+// google
+@if $PATH-font-lato and index($USEFONT_googleFont, lato) // font-family: 'Lato', sans-serif
+  @if 'cdn' == $PATH-font-lato
+    @import url('https://fonts.googleapis.com/css?family=Lato:400,700,900')
+  @else if 'local' == $PATH-font-lato
+    //  todo
+  @else
+    //
+  $PATH-font-lato: false
+
+// iconfont
+// font awesome
+=fa($content: null, $margin-right: null)
+  content: $content
+  font-family: 'FontAwesome'
+  vertical-align: baseline
+  margin-right: $margin-right
+=fas($content: null, $margin-right: null)
+  content: $content
+  font-family: 'FontAwesome solid'
+  vertical-align: baseline
+  margin-right: $margin-right
+=far($content: null, $margin-right: null)
+  content: $content
+  font-family: 'FontAwesome regular'
+  vertical-align: baseline
+  margin-right: $margin-right
+=fab($content: null, $margin-right: null)
+  content: $content
+  font-family: 'FontAwesome brands'
+  vertical-align: baseline
+  margin-right: $margin-right
+
+@if $PATH-font-fontawesome and index($USEFONT_iconfont, fontawesome_solid) or index($USEFONT_iconfont, fontawesome_regular) or index($USEFONT_iconfont, fontawesome_brands)
+  /* Font Awesome by @fontawesome - https://fontawesome.com, License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) */
+
+  $path:   ''
+  $suffix: ''
+
+  @if 'cdn' == $PATH-font-fontawesome
+    // todo
+  @else if 'local' == $PATH-font-fontawesome
+    $path: "../../lib/vendor/fontAwesome-5.0.10/web-fonts-with-css/webfonts/"
+  @else if 'mase' == $PATH-font-fontawesome
+    $path: "{{ asset(path('app_web_assets_maseassets_font', {filename : 'fontAwesome/"
+    $suffix: "'})) }}"
+  @else if 'cm' == $PATH-font-fontawesome
+    $path: "../fonts/fontAwesome/"
+  @else
+    $path: $PATH-font-fontawesome
+
+  $filename: ''
+  $src: null
+  @if index($USEFONT_iconfont, fontawesome_solid)
+    $filename: fa-solid-900
+    $src: null
+    $src: append($src, url($path + $filename + '.woff2' + $suffix) format('woff2'),    comma)
+    $src: append($src, url($path + $filename + '.woff'  + $suffix) format('woff'),     comma)
+    $src: append($src, url($path + $filename + '.ttf'   + $suffix) format('truetype'), comma)
+    @font-face
+      font-family: 'FontAwesome'
+      font-weight: 900
+      src: url($path + $filename + '.eot' + $suffix)
+      src: $src
+    @font-face
+      font-family: 'FontAwesome solid'
+      font-weight: 900
+      src: url($path + $filename + '.eot' + $suffix)
+      src: $src
+  @if index($USEFONT_iconfont, fontawesome_regular)
+    $filename: fa-regular-400
+    $src: null
+    $src: append($src, url($path + $filename + '.woff2' + $suffix) format('woff2'),    comma)
+    $src: append($src, url($path + $filename + '.woff'  + $suffix) format('woff'),     comma)
+    $src: append($src, url($path + $filename + '.ttf'   + $suffix) format('truetype'), comma)
+    @font-face
+      font-family: 'FontAwesome regular'
+      font-weight: 400
+      src: url($path + $filename + '.eot' + $suffix)
+      src: $src
+  @if index($USEFONT_iconfont, fontawesome_regular)
+    $filename: fa-brands-400
+    $src: null
+    $src: append($src, url($path + $filename + '.woff2' + $suffix) format('woff2'),    comma)
+    $src: append($src, url($path + $filename + '.woff'  + $suffix) format('woff'),     comma)
+    $src: append($src, url($path + $filename + '.ttf'   + $suffix) format('truetype'), comma)
+    @font-face
+      font-family: 'FontAwesome brands'
+      font-style: normal
+      font-weight: normal
+      src: url($path + $filename + '.eot' + $suffix)
+      src: $src
+
+  @if index($USEFONT_iconfont, fontawesome_solid)
+    .fa
+      &::before
+        +fa
+      &::after
+        +fa
+    .fas
+      &::before
+        +fas
+      &::after
+        +fas
+  @if index($USEFONT_iconfont, fontawesome_regular)
+    .far
+      &::before
+        +far
+      &::after
+        +far
+  @if index($USEFONT_iconfont, fontawesome_brands)
+    .fab
+      &::before
+        +fab
+      &::after
+        +fab
+
+  $PATH-font-fontawesome: false

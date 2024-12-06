@@ -34,9 +34,10 @@ function my_scripts()
   //style.css
   wp_enqueue_style(
     'base-style',
+    // get_template_directory_uri() . '/Backup/20241127/style.css',
     get_template_directory_uri() . '/css/style.css',
     array('my-reset'), //ress.cssのあとに読み込む
-    '1.0', //バージョン
+    '2.0', //バージョン
     'all'
   );
   //work-detail.css
@@ -119,3 +120,56 @@ function display_custom_column_content($column, $post_id)
   }
 }
 add_action('manage_works_posts_custom_column', 'display_custom_column_content', 10, 2);
+
+// パンくずリスト
+function breadcrumb() {
+  $home = '<li><a href="'.get_bloginfo('url').'" >HOME</a></li>';
+
+  echo '<ul class="breadcrumb">';
+  if ( is_front_page() ) {
+      // トップページの場合は表示させない
+  }
+  // アーカイブ・タグページ
+  else if ( is_archive() ) {
+  echo $home;
+  the_archive_title('<li>', '</li>');
+  }
+  // 投稿ページ
+  else if ( is_single() ) {
+  $cat = get_the_category();
+      if( isset($cat[0]->cat_ID) ) $cat_id = $cat[0]->cat_ID;
+      $cat_list = array();
+      while ($cat_id != 0){
+          $cat = get_category( $cat_id );
+          $cat_link = get_category_link( $cat_id );
+          array_unshift( $cat_list, '<li><a href="'.$cat_link.'">'.$cat->name.'</a></li>' );
+          $cat_id = $cat->parent;
+      }
+      foreach($cat_list as $value){
+          echo $value;
+      }
+      the_title('<li>', '</li>');
+  }
+  // 固定ページ
+  else if( is_page() ) {
+  echo $home;
+  the_title('<li>', '</li>');
+  }
+  // 404ページの場合
+  else if( is_404() ) {
+  echo $home;
+  echo '<li>ページが見つかりません</li>';
+  }
+  echo "</ul>";
+}
+// アーカイブのタイトルを削除
+add_filter( 'get_the_archive_title', function ($title) {
+  if ( is_category() ) {
+      $title = single_cat_title( '', false );
+  } elseif ( is_tag() ) {
+      $title = single_tag_title( '', false );
+  } elseif ( is_month() ) {
+      $title = single_month_title( '', false );
+  }
+  return $title;
+});

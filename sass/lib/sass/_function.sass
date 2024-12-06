@@ -1,0 +1,15 @@
+// libary function //
+
+// split %
+@function split($i)
+  @return (100% / $i)
+
+// half number or list
+@function half($arg)
+  @if number == type-of($arg)
+    @return $arg / 2
+  @else if list == type-of($arg)
+    $result: null
+    @each $val in $arg
+      $result: append($result, $val / 2)
+    @return $result
